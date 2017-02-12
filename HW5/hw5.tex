@@ -1,0 +1,159 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage{amsmath}
+
+\begin{document}
+\title{CSCI 567 Assignment 5 \\Fall 2016}
+\date{ November 9, 2016}
+\author{Snehal Adsule\\2080872073\\adsule@usc.edu}
+\maketitle
+
+%---- PROBLEM 1
+\section{Problem 1}
+\subsection{1 (a) }
+Consider the given distortion function as follows:\\
+$D = \sum_{n=1}^{N}\sum_{k=1}^{K}r_{nk} ||x_{n} - \mu_{k}||_{2}^{2}$\\
+Differentiating with respect to $\mu_k$
+\begin{align*}
+\dfrac{\partial D}{\partial \mu_{k}} &=  \sum_{n=1}^{N} r_{nk} (2\mu_{k} - 2x_{n}) = 0\\\
+\sum_{n=1}^{N} r_{nk}\mu_{k} &= \sum_{n=1}^{N}r_{nk}x_{n}\\
+\mu_{k} &= \dfrac{\sum_{n=1}^{N}r_{nk}x_{n}}{\sum_{n=1}^{N} r_{nk}}
+\end{align*}
+The above equation shows that  $\mu_k$ is nothing but mean of the the points in a particular cluster
+\subsection{1 (b) }
+Consider the L1 norm for the distortion as follows:\\
+$D = \sum_{n=1}^{N}\sum_{k=1}^{K}r_{nk} ||x_{n} - \mu_{k}||_{1}$\\
+differentiating with respect to $\mu_k$
+\begin{align*}
+\dfrac{\partial D}{\partial \mu_{k}} &= \sum_{n=1}^{N}\sum_{k=1}^{K}r_{nk} sign(x_{n} - \mu_{k}) = 0
+\end{align*}
+Now,
+\begin{align*}
+\sum_{n=1}^{N} sign(x_{n} - \mu_{k}) &= 0\\
+sign(x_{n} - \mu_{k}) &= +1 ~~~\text{if}~~ x_{n} - \mu_{k}>0\\
+&= -1 ~~~\text{if}~~ x_{n} - \mu_{k}<0\\
+\end{align*}
+Therefore, if we sort all the points we will have the optimum right at the centre , which is nothing but the median of all the points.
+\subsection{1 (c) 1} Kernal K means
+			\begin{align*}
+			\tilde{D} = \sum_{n=1}^N\sum_{k=1}^K r_{nk} ||\phi(x_n) - \tilde{\mu_k}||^2,	\text{   where },
+			\tilde{\mu_k} = \frac{\sum_{i=1}^N r_{ik}\phi(x_i)}{\sum_{i=1}^N r_{ik}}
+			\end{align*}
+			Consider, $||\phi(x_n) - \tilde{\mu_k}||^2$
+			\begin{align*}
+			||\phi(x_n) - \tilde{\mu_k}||^2 &= (\phi(x_n)- \tilde{\mu_k})^T(\phi(x_n)-\tilde{\mu_k})\\
+			&=\phi(x_n)^T\phi(x_n) - 2\tilde{\mu}^T\phi(x_n) + \tilde{\mu}^T\tilde{\mu}\\
+			&= \phi(x_n)^T\phi(x_n) -2 \frac{\sum_{i=1}^N r_{ik}\phi(x_i)^T\phi(x_n)}{\sum_{i=1}^N r_{ik}} + \frac{\sum_{i=1}^N \sum_{j=1}^Nr_{ik}r_{jk}\phi(x_i)^T\phi(x_j)}{\sum_{i=1}^N \sum_{j=1}^N r_{ik}r_{jk}}
+			\end{align*}
+		Lets assume that $n_k = \sum_{i=1}^N r_{ik}$, so that it simplifies to:
+		\begin{align*}
+		||\phi(x_n) - \tilde{\mu_k}||^2 &= \phi(x_n)^T\phi(x_n) -2 \frac{\sum_{i=1}^N r_{ik}\phi(x_i)^T\phi(x_n)}{n_k} + \frac{\sum_{i=1}^N \sum_{j=1}^Nr_{ik}r_{jk}\phi(x_i)^T\phi(x_j)}{n_k^2}\\
+		&= K(x_n,x_n) -2 \frac{\sum_{i=1}^N r_{ik} K(x_i, x_n)}{n_k} + \frac{\sum_{i=1}^N \sum_{j=1}^Nr_{ik}r_{jk}K(x_i,x_j)}{n_k^2}
+		\end{align*}
+We can express the Distortion function just in terms of kernel matrix as follows,
+			\begin{align*}
+			\tilde{D} = \sum_{n=1}^N K(x_n,x_n) -2 \frac{\sum_{i=1}^N r_{ik} K(x_i, x_n)}{n_k} + \frac{\sum_{i=1}^N \sum_{j=1}^Nr_{ik}r_{jk}K(x_i,x_j)}{n_k^2}
+			\end{align*}
+\subsection{1 (c) 2}
+ We compute the distance for all points $x_n$ for each cluster and choose the minimum using above equation for $\tilde{D}$, where  $n_k = \sum_{i=1}^N r_{ik}$, therefore membership assignment will be
+\begin{align*}
+	r_{nk} = \begin{cases}
+	1 & k = \arg \min_k ||\phi(x_n)-\tilde{\mu_k}||_2^2\\
+	0 & \text{otherwise}
+	\end{cases}
+\end{align*}
+\subsection{1 (c) 3}
+1)  Randomly choose  $k$ points of $N$ as cluster centroids[1..k] \\
+2)  Choose a kernel function (RBF,polynomial, sigmoid etc),  and compute the kernel matrix K(i...N,j..N)\\
+3)  Now conmpute the distance $\tilde{D}$ as for each point $x_n$, with respect to k cluster\\
+	$ K(x_n,x_n) -2 \frac{\sum_{i=1}^N r_{ik} K(x_i, x_n)}{n_k} + \frac{\sum_{i=1}^N \sum_{j=1}^Nr_{ik}r_{jk}K(x_i,x_j)}{n_k^2}$\\
+4) For each data point determine the membership ,compute matrix $r_{nk}$\\
+5) update $\mu_k$ for new cluster centroid\\
+6) Check for convergence , repeat from step 3)
+	
+
+\section{Problem 2}
+\subsection{2 (a) 1}
+Given
+\begin{align*}
+f(x|\theta_1)= \frac{1}{\sqrt{2\pi}} e^\frac{-1}{2}x^2  \text{  and, } f(x|\theta_2)&= \frac{1}{\sqrt{\pi}} e^{-x^2}\\
+\end{align*}
+We can express max likelihood as follows: 
+\begin{align*}
+L(x)&= \alpha  \frac{1}{\sqrt{2\pi}} e^\frac{-1}{2}x^2 + (1-\alpha)\frac{1}{\sqrt{\pi}} e^{-x^2}
+\end{align*}
+differentiating with respect to $\alpha$, for maximum likelihood
+\begin{align*}
+\frac{\partial L(x)}{\partial \alpha}&=   \frac{1}{\sqrt{2\pi}} e^\frac{-1}{2}x^2 -\frac{1}{\sqrt{\pi}} e^{-x^2}
+\end{align*}
+We observe that the maximum likehood is independent of alpha and it dependant on the value of L.
+If $\frac{1}{\sqrt{2\pi}} e^\frac{-1}{2}x^2 > \frac{1}{\sqrt{\pi}} e^{-x^2}$ ,  $\alpha$ will take part in increasing the likelihood , if both are equal then there is no impact of $\alpha$. If $\frac{1}{\sqrt{2\pi}} e^\frac{-1}{2}x^2 < \frac{1}{\sqrt{\pi}} e^{-x^2}$ ,  $\alpha$ will tend to zero.
+\section{Problem 3}
+\subsection{3 (a) }
+
+		Let $z_i$ be a latent variable such that $z_i$ = 1 if $x_i$ is from the zero state (zero inflated state), and $z_i$ = 0 if $x_i$ is from the Poisson state (for zero truncated state). Let $z_i$ = 1 with probability $\pi$, and $z_i$ = 0 with probability $(1 - \pi) \lambda$.		
+		\begin{align*}
+		p(x_i) = \begin{cases}
+		\pi+(1-\pi)e^{-\lambda} & x_i=0\\
+		(1-\pi)\frac{\lambda^{x_i}e^{-\lambda}}{x_i!} & x_i>0
+		\end{cases}
+		\end{align*}
+		
+		\begin{align*}
+		Z_i = \begin{cases}
+		1 &  \text{$X_i$ is zero with $\pi_i$  }\\
+		0 & \text{if$ X_i >0$ , $  (1-\pi){e^{-\lambda}}$}
+		\end{cases}
+		\end{align*}
+		Therefore,\\
+		\begin{align*}
+		p(X_i) = p(Z_i=1) \times p(X_i=0|Z_i=1) +  p(Z_i=0) \times p(X_i=0|Z_i=0) 
+		&= \pi \times 1 + (1-\pi)e^{-\lambda} \times 1
+		\end{align*}
+		Assuming I as indicator function of membership,
+		\begin{align*}
+		L((X,Z)|\theta) &= \prod_{x_i=0} \pi^{z_i} \times ((1-\pi)e^{-\lambda})^{1-z_i} \times \prod_{x_i > 0} (1-\pi)e^\frac{\lambda^x_i e^{-\lambda}}{x_i!}\\
+		LL=\log L &= \sum_{I(x_i=0)} z_i \log(\pi) + (1-z_i) ( \log(1-\pi) - \lambda )\\  &+ \sum_{I(x_i>0)} ( \log(1-\pi) + (\lambda_i^{x_i}) - \lambda - \log(x_i!) )
+		\end{align*}
+\subsection{3 (b) }		
+		Say, $\theta = (\pi, \lambda)$ , and $\theta_0$ for the old parameter from previous iteration of the EM algorithm.\\	
+Consider E step 		
+\begin{align*}	
+Q(\theta, \theta_0) &= \sum_z [P(Z|X,\theta) \log P((X,Z),\theta)]\\
+	&= \sum_{I(x_i=0)} E_{P(Z|X)}[z_i] \log(\pi) + (1-E_{P(Z|X)}[z_i]) \big( \log(1-\pi) - \lambda \big)\\  
+		&+ \sum_{I(x_i>0)} \big( \log(1-\pi) + (\lambda_i^{x_i}) - \lambda - \log(x_i!) \big)
+\end{align*}
+Solving for $E_{P(Z|X_i)}[z_i]$
+\begin{align*}	
+E_{P(Z|X_i)}[z_i] &= 0 \times p(Z_i=0|X) + 1 \times p(Z_i=1|X_i=0) \\
+&= \frac{p(X_i=0|Z_i=1)p(Z_i=1)}{p(X_i=0|Z_i=0)p(Z_i=0)+p(X_i=0|Z_i=1)p(Z_i=1)}\\
+&= \frac{\pi_0}{\pi_0+(1-\pi_0)e^{-\lambda_0}}
+\end{align*}
+
+Now, we can re-write $Q(\theta, \theta_0)$
+\begin{align*}
+Q(\theta, \theta_0) &= \sum_{I(x_i=0)} \frac{\pi_0}{\pi_0+(1-\pi_0)e^{-\lambda_0}} \log(\pi) + (\frac{(1-\pi_0)e^{-\lambda_0}}{\pi_0+(1-\pi_0)e^{-\lambda_0}}) \big( \log(1-\pi) - \lambda \big)\\  
+&+ \sum_{I(x_i>0)} \big( \log(1-\pi) + x_i \log(\lambda) - \lambda - \log(x_i!) \big)
+\end{align*}
+In M step, we will maximize Q to compute update for all parameters as follows:
+Differentiate wrt $\lambda$
+\begin{align*}
+\frac{\partial Q}{\partial \lambda} &=0\\
+&= \sum_{I(x_i=0)} (1-E[z_i])(-1) + \sum_{I(x_i>0)} (\frac{x_i}{\lambda}-1)  =0\\
+\implies \hat{\lambda} &= \frac{\sum_{I(x_i>0)}x_i}{n-\sum_{I(x_i=0)}E[z_i]} \\
+\hat{\lambda}  &= \frac{\sum_{I(x_i>0)}x_i}{n-\sum_{I(x_i=0)}\hat{z_i}} \\
+\text{where } \hat{z} &= \frac{\pi_0}{\pi_0+(1-\pi_0)e^{-\lambda_0}}
+\end{align*}
+Differentiate wrt $\pi$		
+\begin{align*}
+\frac{\partial Q}{\partial \pi} &=0\\
+&=  \sum_{I(x_i=0)} \big(\frac{E[z_i]}{\pi} - \frac{1-E[z_i]}{1-\pi}\big) - \sum_{I(x_i>0)}  \frac{1}{1-\pi} =0 \\
+&= \sum_{I(x_i=0)} \big(\frac{E[z_i]}{\pi} + \frac{E[z_i]}{1-\pi}\big) - \frac{n}{1-\pi} = 0\\
+\implies \hat{\pi} &= \sum_{I(x_i=0)} \frac{\hat{z_i}}{n}
+\end{align*}
+
+Therefore, the updates rules are :\\
+$\hat{z}_1 = \frac{\pi_0}{\pi_0+(1-\pi_0)e^{-\lambda_0}}$, 
+$\hat{\lambda}_1 = \frac{\sum_{I(x_i>0)}x_i}{n-\sum_{I(x_i=0)}\hat{z_1}}$,   
+$\hat{\pi} = \sum_{I(x_i=0)} \frac{\hat{z_i}}{n}$
+			
+\end{document}

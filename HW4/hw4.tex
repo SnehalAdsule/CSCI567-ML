@@ -1,0 +1,92 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage{amsmath}
+
+\begin{document}
+\title{CSCI 567 Assignment 4 \\Fall 2016}
+\date{ November 5,2016}
+\author{Snehal Adsule\\2080872073\\adsule@usc.edu}
+\maketitle
+%---- PROBLEM 1
+\section{Problem 1}
+\subsection{1 (a) }
+Given that $ L(y_i,\hat y_i) = (y_i - \hat y_i)^2$
+\begin{align}
+	\frac{dL}{d \hat y_i}=g_i= 2( \hat y_i - y_i)
+\end{align}
+
+\subsection{1 (b)}
+Given that $ h^{*}$= arg min ( min $\sum_{i=1}^n (-g_i -\gamma h(x_i))^2 )$
+
+Differentiating wrt $\gamma$ for optimal $h^*$
+\begin{align*}
+\frac{dh}{d\gamma}= min_{H}( min_{R} \sum_{i=1}^{n} 2(- g_i - \gamma h(x_i) )(- h(x_i) ) )=0\\
+	\gamma =  \sum_{i=1}^{n} \frac{ -g_i h(x_i) }{ h(x_i)^2}\\
+	\gamma =  \sum_{i=1}^{n} \frac{ -g_i  }{ h(x_i)}\\
+\end{align*}
+
+To prove the optimal we should take the second derivative
+\begin{align*}
+\frac{d^2h}{d\gamma^2}= \sum_{i=1}^{n} 2(- h(x_i) )(- h(x_i) ) =0\\
+=>  \sum_{i=1}^{n} 2 h(x_i)^2 >=0
+\end{align*}
+As the above equation is always going to be positive, we can say that $h^*$ is optimal.
+
+\subsection{1 (c)}
+Given that $ a^{*}$= arg min  $\sum_{i=1}^n L(y_i, \hat y_i + \alpha h^*(x_i))$
+differntiating wrt $\alpha$
+\begin{align*}
+	\frac{dL}{d\alpha}=\sum_{i=1}^{n} 2 [y_i -(\hat y_i + \alpha h^*(x_i))](-h^* (x_i))=0\\
+	\alpha^*=\sum_{i=1}^{n}  \frac{(y_i- \hat y_i)}{h^*(x_i)}
+\end{align*}
+Differentiating again , for optimal
+\begin{align*}
+\frac{d^2L}{d\alpha^2}= \sum_{i=1}^{n} 2(- h(x_i) )(- h(x_i) ) =0\\
+=>  \sum_{i=1}^{n} 2 h(x_i)^2 >= 0
+\end{align*}
+ As, second derivative is positive it will be optimal solution.
+
+
+\section{Problem 2}
+\subsection{2 (a) }
+Conside the neural network with the linear activation for hidden layer and sigmoid output. We can think of it as a one single layer input , which is the output from the hidden layer with j units $a_j = \sum h( w_{ji} x_i$) . \\
+$z_j=\sum w_ji x_i$, \\
+$a_j=h(z_j)$ \\
+$y_k=\sum \sigma (v_{kj} z_j) $,where  h is the linear activation function.
+
+Hence, we can think of it as reduced input $a_j$ along with weights $v_{kj}$ , as linear input to the final sigmoid unit. We can represent the output in terms of the logistic regression, with $a_j$ as the input .
+
+$f(x) = \frac{1}{ 1 + e^{\sum v_{jk} a_j}}$
+
+Therefore, it is equivalent to the logistic regression.  
+
+\subsection{2 (b) }
+Given that $ L(y_i,\hat y_i) = (y_i - \hat y_i)^2$
+
+The error in the output layer is given as 
+\begin{align*}
+	\frac{dL}{d y_j}=\delta_j = (y_j -t _j)
+\end{align*}
+ using chain rule, we can back propagate the error as
+\begin{align*}
+	\frac{dL}{d a_k}=\delta_k\\
+	=\frac{dL}{d a_j}\frac{d a_j}{d a_k} , \\
+\delta_k=\delta_j (1-z^2) \sum v_{jk}
+\end{align*}
+
+Now, derivative for weight update of $v_{jk}$, using chain rule and $\sigma^{'} (a)= 1-z^2 $ for tanh function 
+\begin{align*}
+	\frac{dL}{d v_{jk}}=\frac{dL}{d y_{j}} \frac{d y_j}{d v_{jk}}	\\
+	=\delta_j \frac{d\sum v_{jk}z_k}{ d v_{jk}}\\
+\frac{dL}{d v_{jk}}=\delta_j z_k
+\end{align*}
+
+Now, derivative for weight update update of $w_{ki}$, using chian rule
+\begin{align*}
+	\frac{dL}{d w_{ki}}=\frac{dL}{d a_{k}} \frac{d a_k}{d w_{ki}}	\\
+	=\delta_k \frac{d\sum w_{ki} x_i}{ d w_{ki}}\\
+\frac{dL}{d w_{ki}}=\delta_k x_i
+\end{align*}
+ 
+\end{document}
+
+

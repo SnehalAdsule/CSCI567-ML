@@ -1,0 +1,14 @@
+http://scholarsarchive.byu.edu/cgi/viewcontent.cgi?article=2613&context=etd
+
+http://stats.stackexchange.com/questions/12232/calculating-the-parameters-of-a-beta-distribution-using-the-mean-and-variance
+
+
+useful links
+--------------
+http://markcsie.github.io/documents/CSCI567Spring2016Project.pdf
+https://github.com/saketkc/hatex/tree/master/2015_Fall/CSCI-567
+https://github.com/rohitkondekar/MachineLearningCSCI567
+https://github.com/markcsie/ML_Project
+
+
+   

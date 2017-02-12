@@ -1,0 +1,16 @@
+ 3 (c) 1 Load Data
+(104051, 50) (26013, 50) (104051, 2) (26013, 2)
+ 3 (c) 2 Normalization
+(104051, 50) (26013, 50)
+[[50, 2], [50, 50, 2], [50, 50, 50, 2], [50, 50, 50, 50, 2]]
+ 3 (h) Early Stopping and L2-regularization
+Epoch 00008: early stopping
+Score for architecture = [50, 800, 500, 300, 2], lambda = 1e-06, decay = 0.0, momentum = 0.0, actfn = relu: 0.744281704744 ,time =51.8821599483
+Epoch 00010: early stopping
+Score for architecture = [50, 800, 500, 300, 2], lambda = 5e-06, decay = 0.0, momentum = 0.0, actfn = relu: 0.76415638125 ,time =61.8257119656
+Score for architecture = [50, 800, 500, 300, 2], lambda = 1e-05, decay = 0.0, momentum = 0.0, actfn = relu: 0.809364546854 ,time =160.76723814
+Score for architecture = [50, 800, 500, 300, 2], lambda = 5e-05, decay = 0.0, momentum = 0.0, actfn = relu: 0.803521320621 ,time =161.720901012
+Score for architecture = [50, 800, 500, 300, 2], lambda = 0.0001, decay = 0.0, momentum = 0.0, actfn = relu: 0.797139886453 ,time =160.859256029
+Best Config: architecture = [50, 800, 500, 300, 2], lambda = 1e-05, decay = 0.0, momentum = 0.0, actfn = relu, best_acc = 0.809364546854
+--- 597.055408001 seconds ---
+ 3 (i) SGD with weight decay

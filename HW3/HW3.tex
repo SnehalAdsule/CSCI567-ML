@@ -1,0 +1,169 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage{amsmath}
+
+\begin{document}
+\title{CSCI 567 Assignment 3 \\Fall 2016}
+\date{ October 17,2016}
+\author{Snehal Adsule\\2080872073\\adsule@usc.edu}
+\maketitle
+%---- PROBLEM 1
+\section{Problem 1}
+\subsection{1 (a)} Closed Form 
+Given that $\hat \beta_{\lambda } =arg min_{\beta} \big\{  \frac{1}{n} \sum_{i=1}^n (y_i - x_i^T \beta) ^2 +\lambda \mid \mid \beta\mid \mid_2^2 \big \}$
+
+Differentiating wrt $\beta$
+	\begin{align*}
+	\frac{\delta\hat\beta_{\lambda}}{\delta \beta} =  \frac{2}{n} \{\sum_{i=1}^n(y_i - x_i^T \beta)(-x_i^T) + \lambda \beta \} =0 \\
+	=>\frac{2}{n} \{ -X^TY+ X^T\beta X+ \lambda \beta \} = 0\\
+	=> \beta(X^TX + \lambda)= YX^T\\
+	=>\hat \beta =(X^TX + \lambda)^{-1}X^T .Y
+	\end{align*}
+using $Y=X\beta^* + \epsilon $\\
+$\hat \beta =(X^TX + \lambda)^{-1}X^T . (X\beta^* + \epsilon )$\\
+The guassian distribution for the noise is, $\epsilon ∼ N(0, \sigma^2)$.\\
+Using affine transformation distribution of y can be written as\\
+
+	\begin{align*}
+	\text{Thus,  }  \hat \beta =(X^TX + \lambda)^{-1}X^T . (X\beta^* + \epsilon )\\
+	\text{And,  }Y ∼ N(X\beta^*, \sigma^2 I)\\
+	=>\hat \beta_\lambda = ((X^TX + \lambda)^{-1} X^TX\beta ^* , (X^TX + \lambda)^{-1} X^TX (X^TX + \lambda I)^{-1})
+	\end{align*}
+
+
+%---- Problem 1 b----------------
+\subsection{1 (b)} Bias Term
+	\begin{align*}
+	E[x^T\hat\beta_\lambda] - x^T \beta^* \\
+	= x^T (E[\hat\beta_ \lambda] - \beta^* ) = x^T((  X^T X + λ)^{-1} X^T X\beta^* − \beta^*)   \\
+	= x^T ((  X^T X + \lambda)^{-1} X^T X - I  )\beta^* \\
+	\end{align*}
+next
+%-----------1(c)---------------------------------
+\subsection{1 (c) } Variance Term
+	\begin{align*}
+	E  [ (x^T (\beta_\lambda − E[\beta_\lambda]))^2]  = x^T( X^T X + \lambda )^{-1} X^T X(XX^T + \lambda I)^{-1}x\\
+	 = ||X(XX^T + \lambda)^{-1}x||^2_2
+	\end{align*}
+
+
+%-----------------------
+\subsection{1 (d) }
+We can observe that , with Part b. and Part c. of the bias and variance tradeoff  if $\lambda$ increases, the bias
+term also increases while the variance term decreases. And when $\lambda$ is small, the bias
+term si expected to be smaller and the variance term will be larger, comparatively. 
+
+\section {Kernel Construction}
+\subsection{2. (a) }
+
+To prove that , $k_3(x,x') = a_1k_1(x,x')+a_2k_2(x,x')\ \text{where} a_1,a_2\geq 0$
+			
+			Since $k_1(x,x')$ is positive definite, $\forall y \in \mathbf{R}$, 
+			
+			\begin{align*}
+			y^TK^{(1)}y \geq 0 \\
+			\text{where }	&K^{(1)}_{ij} = k_1(x_i,x_j')
+			\end{align*}
+			
+			Similarly,
+			\begin{align*}
+			y^TK^{(2)}y \geq 0 \\
+			\text{where }	&K^{(2)}_{ij} = k_2(x_i,x_j')
+			\end{align*}
+			
+			Adding ,the above two equations, we get
+			
+			\begin{align*}
+			y^T(K^{(1)}+K^{(2)})y \geq 0\  \forall y \in \mathbf{R}
+			\implies\\
+			y^TK^{(3)}y \geq 0\  \forall y \in \mathbf{R}\\
+			\text{where} 	K^{(3)}_{ij} = k_3(x_i,x_j')
+			\end{align*}
+\subsection{2. (b) }
+To prove , $k_4(x,x') =f(x)f(x')$ 
+			 $K^{(4)}_{ij} = k_4(x_i,x_j) = f(x_i)f(x_j')$\\			
+			Since $f(x)$ is a real valued function, consider $K^{(4)}$
+			\begin{align*}
+			K^{(4)} = \begin{bmatrix}
+			f(x_1)f(x_1') & f(x_1)f(x_2') & \cdots & f(x_1)f(x_n')\\
+			\vdots\\
+			f(x_n)f(x_1') & f(x_n)f(x_2') & \cdots & f(x_n)f(x_n')
+			\end{bmatrix}\\
+			K^{(4)} = \vec{F({x})}_{n\times 1} \vec{F(x)}^T_{1 \times n} \\
+			\text{where}\\
+			F(x)^T_{1 \times n} = \begin{pmatrix}
+			f(x_1)\\
+			f(x_2)\\
+			\vdots
+			f(x_n)
+			\end{pmatrix}
+			\end{align*}			
+			Therefore, $y^TK^{(4)}y = y^TF(x)F(x)^Ty = y^TF(x)(y^TF(x))^T = ||y^TF(x)||_2^2 \geq 0$			
+			We can say , $k_2(.,.)$ is a valid kernel function!.
+\subsection{2. (c) }
+To prove that $k_5(x,x') = k_1(x,x')k_2(x,x')$			
+			$K^{(5)} = K^{(1)} \circ K^{(2)}$ where $\circ$ denotes the Hadamard product. Using the Schur product for$K^{(1)} , K^{(2)}$ we can prove this.
+			
+			
+			Since, $k_1$ and $k_2$ are valid kernel function $\exists v_i w_j$ the eigen vectors of matrix $K_1$ and $K_2$ defines such that:
+			
+			$K^{(1)} = \sum_{i} \lambda_i v_i v_i^T$ and $K^{(2)} = \sum_{j} \mu_j {w_j}{w_j}^T$
+			
+			Now,\begin{align*}
+			K^{(5)} &=  K^{(1)} \circ K^{(2)}\\
+			&=  \sum_{i} \lambda_i v_i v_i^T \circ \sum_{j} \mu_j {w_j}{w_j}^T\\
+			&= \sum_{i,j} \lambda_i \mu_j  (v_i v_i^T) \circ {w_j}{w_j}^T\\
+			&= 	\sum_{i,j} \lambda_i \mu_j  (v_i \circ w_j) ({v_j}\circ {w_j})^T\\
+			&\geq 0
+			\end{align*}
+			As, $(v_i \circ w_j) ({v_j}\circ {w_j})^T  = ||v_i w_j||_2^2\geq 0$ 
+			
+\section{Kernel Regression}
+\subsection{3.a}
+Given that ,$min_w(\sum_i (y_i-w^Tx_i)^2+ \lambda||w||_2^2)$	\\		
+		We can think of it as vector and rewrite is as ,\\
+		$min_w(||y-w^TX||_2^2 + \lambda||w||_2^2)$
+		
+		\begin{align*}
+		f(w) &= min_w(||y-Xw||_2^2 + \lambda||w||_2^2)\\
+		&= (y-Xw)^T(y-Xw) + \lambda w^Tw\\
+		&= (y^T-w^TX^T)(y-Xw) + \lambda w^Tw\\
+		&= y^Ty - y^TXw -w^TX^Ty + w^TX^TXw + \lambda w^Tw\\
+		&= y^Ty - {(X^Ty)}^Tw -w^TX^Ty + w^TX^TXw	 + \lambda w^Tw\\
+		\frac{\partial f(w)}{\partial w} &= -X^Ty - X^Ty + 2\lambda w + (X^TXw + (XX^Tw)) = 0\\
+		&= 2\lambda w +2X^TXw -2X^Ty = 0\\
+		\text{w}(\lambda I_D + X^Tw) &= X^Ty\\
+		\end{align*}
+$=>\text{w*} = (X^TXw + \lambda I_D)^{-1}X^Ty$ , where $ I_D$ denotes DxD identity matrix
+\subsection{3.b}
+
+		After applying the non linear feature mapping , the solution should be similar \\
+		$min_w(||y-w^T\Phi||_2^2 + \lambda||w||_2^2)$\\
+
+		$=>\text{{w}} = (\Phi^T\Phi + \lambda I_D)^{-1}\Phi^Ty$
+		
+		Using the identity:
+		
+		$$(P^{-1}+B^TR^{-1}B)^{-1}B^TR^{-1} = PB^T(BPB^T+R)^{-1}$$\\
+		and assuming matrix inversion is valid
+		
+		$$\big((\lambda I_D + \Phi^T\Phi)^{-1}\big)\Phi^Ty =  \Phi^T\big(\Phi\Phi^T + \lambda I_N\big)^{-1}y$$
+		
+		${w^{*} = \Phi^T(\Phi\Phi^T + \lambda I_N)^{-1} y}$
+%---------------3 c
+\subsection{3.c}
+$$\hat{y} = w^{*T} \Phi(x)$$
+can be written as 
+		$$\hat{y} =  \big(\Phi^T(\Phi\Phi^T + \lambda I_N)^{-1} y\big)^T\Phi(x) = y^T \big((\Phi\Phi^T + \lambda I_N)^{-1}\big)^T\Phi^T\Phi(x)$$
+			
+		\begin{align*}
+		\hat{y} &= y^T \big((\Phi\Phi^T + \lambda I_N)^{-1}\big)^T\Phi^T\Phi(x) \\
+		&=  y^T \big((\Phi\Phi^T + \lambda I_N)^{T}\big)^{-1}\Phi^T\Phi(x), Using, (A^{-1})^T = (A^T)^{-1}\\
+		&=  y^T \big((\Phi^T\Phi + \lambda I_N)\big)^{-1}\Phi^T\Phi(x)\\
+		&= y^T(K+\lambda I_N)^{-1} \kappa(x)
+		\end{align*}
+		
+		Where $K_{ij}= \Phi_i^T\Phi_j$ and $\kappa(x) = \phi^T\phi^T(x)$ (given)
+\subsection{3.d}		
+		We can say that kernel ridge regression is $O(n^3)$ for $n$ data points, considering the multiplication and inversion of matrices. However, linear regression can be presented  as quadratic programing and hence is $O(n^2)$. Kernel $N\times N$ compared to $D \times D$(for ridge regression without kernel) as in Part (b). In cases where $d<n$ this leads to an extra operations for computing $K$ .
+		
+\end{document}

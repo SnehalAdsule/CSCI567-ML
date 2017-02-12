@@ -1,0 +1,41 @@
+ 3 (c) 1 Load Data
+(104051, 50) (26013, 50) (104051, 2) (26013, 2)
+ 3 (c) 2 Normalization
+(104051, 50) (26013, 50)
+[[50, 2], [50, 50, 2], [50, 50, 50, 2], [50, 50, 50, 50, 2]]
+ 3 (d) 1 Linear Activation
+Score for architecture = [50, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = linear: 0.589474490289 ,time =6.54711389542
+Score for architecture = [50, 50, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = linear: 0.554261330094 ,time =12.2804899216
+Score for architecture = [50, 50, 50, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = linear: 0.66374504988 ,time =13.160474062
+Score for architecture = [50, 50, 50, 50, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = linear: 0.666359122604 ,time =15.4402179718
+Best Config: architecture = [50, 50, 50, 50, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = linear, best_acc = 0.666359122604
+--- 47.42841506 seconds ---
+ 3 (d) 2 Linear Activation
+Score for architecture = [50, 50, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = linear: 0.447776112357 ,time =12.120470047
+Score for architecture = [50, 500, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = linear: 0.596317228124 ,time =25.1118509769
+Score for architecture = [50, 500, 300, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = linear: 0.573059630498 ,time =48.6297950745
+Score for architecture = [50, 800, 500, 300, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = linear: 0.823472880943 ,time =117.357849836
+Score for architecture = [50, 800, 800, 500, 300, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = linear: 0.799677088146 ,time =212.402140856
+Best Config: architecture = [50, 800, 500, 300, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = linear, best_acc = 0.823472880943
+--- 415.622214079 seconds ---
+ 3 (e) 1 Sigmoid Activation
+Score for architecture = [50, 50, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = sigmoid: 0.719371085843 ,time =17.5754480362
+Score for architecture = [50, 500, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = sigmoid: 0.718563793825 ,time =86.8491079807
+Score for architecture = [50, 500, 300, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = sigmoid: 0.718563793825 ,time =147.21666193
+Score for architecture = [50, 800, 500, 300, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = sigmoid: 0.718563793825 ,time =317.490144014
+Score for architecture = [50, 800, 800, 500, 300, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = sigmoid: 0.718563793825 ,time =513.448997974
+Best Config: architecture = [50, 50, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = sigmoid, best_acc = 0.719371085843
+--- 1082.58047819 seconds ---
+ 3 (f) 1
+Score for architecture = [50, 50, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = relu: 0.80478991091 ,time =15.049282074
+Score for architecture = [50, 500, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = relu: 0.821320108118 ,time =43.3998789787
+Score for architecture = [50, 500, 300, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = relu: 0.813208784577 ,time =76.5598659515
+Score for architecture = [50, 800, 500, 300, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = relu: 0.816399492988 ,time =173.826334953
+Score for architecture = [50, 800, 800, 500, 300, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = relu: 0.798485374135 ,time =299.231929064
+Best Config: architecture = [50, 500, 2], lambda = 0.0, decay = 0.0, momentum = 0.0, actfn = relu, best_acc = 0.821320108118
+--- 608.067423105 seconds ---
+ 3 (g) 1
+Score for architecture = [50, 800, 500, 300, 2], lambda = 1e-06, decay = 0.0, momentum = 0.0, actfn = relu: 0.818782918054 ,time =192.077080011
+Score for architecture = [50, 800, 500, 300, 2], lambda = 5e-06, decay = 0.0, momentum = 0.0, actfn = relu: 0.799792409844 ,time =190.694348097
+Score for architecture = [50, 800, 500, 300, 2], lambda = 1e-05, decay = 0.0, momentum = 0.0, actfn = relu: 0.801868300331 ,time =199.101289988
+Score for architecture = [50, 800, 500, 300, 2], lambda = 5e-05, decay = 0.0, momentum = 0.0, actfn = relu: 0.79287279932
